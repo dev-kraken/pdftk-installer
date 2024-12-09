@@ -11,9 +11,15 @@ log() {
 
 # Check if running as root
 if [ "$(id -u)" -ne 0 ]; then
-  log "This script must be run as root or with sudo."
-  exit 1
+  echo "This script must be run as root or with sudo."
+  echo "Attempting to switch to root..."
+
+  # Re-execute the script with sudo
+  exec sudo "$0" "$@"
 fi
+
+# Continue with the rest of your script here
+echo "Running as root."
 
 # Function to detect the operating system and package manager
 detect_os() {
@@ -108,7 +114,7 @@ install_pdftk_jar() {
   fi
 
   # Create wrapper script for PDFtk.
-  if [ ! -x /usr/local/bin/pdftk ]; then
+  if [ ! -x /usr/local/bin/pdftk ] || [ ! -x pdftk ]; then
     echo '#!/bin/sh' >/usr/local/bin/pdftk
     echo 'java -jar /usr/local/bin/pdftk.jar "$@"' >>/usr/local/bin/pdftk
     chmod +x /usr/local/bin/pdftk || {
