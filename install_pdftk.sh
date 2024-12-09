@@ -16,7 +16,7 @@ if [ "$(id -u)" -ne 0 ]; then
 
   # Call sudo without exec and exit after
   sudo "$0" "$@"
-  exit  # Exit here so that the original script does not continue
+  exit 0
 fi
 
 # Continue with the rest of your script here
