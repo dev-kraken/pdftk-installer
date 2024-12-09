@@ -82,7 +82,7 @@ install_pdftk() {
 install_pdftk_jar() {
 
   # Download PDFtk JAR file
-  sudo wget https://gitlab.com/pdftk-java/pdftk/-/releases/v3.3.3/downloads/pdftk-all.jar -O /usr/local/bin/pdftk.jar
+  sudo wget https://gitlab.com/api/v4/projects/5024297/packages/generic/pdftk-java/v3.3.3/pdftk-all.jar -O /usr/local/bin/pdftk.jar
 
   # Create wrapper script
   echo '#!/bin/sh' | sudo tee /usr/local/bin/pdftk > /dev/null
