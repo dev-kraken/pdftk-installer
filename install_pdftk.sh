@@ -29,16 +29,16 @@ detect_os() {
 install_java() {
   case $PKG_MANAGER in
     apt)
-      sudo apt update && sudo apt install -y default-jre
+      apt update && apt install -y default-jre
       ;;
     yum|dnf)
-      sudo $PKG_MANAGER install -y java-11-openjdk
+      yum install -y java-11-openjdk || dnf install -y java-11-openjdk
       ;;
     zypper)
-      sudo zypper install -y java-11-openjdk
+      zypper install -y java-11-openjdk
       ;;
     pacman)
-      sudo pacman -Syu --noconfirm jre11-openjdk
+      pacman -Syu --noconfirm jre11-openjdk
       ;;
     apk)
       apk add --no-cache openjdk11-jre
@@ -49,22 +49,22 @@ install_java() {
 install_pdftk() {
   case $PKG_MANAGER in
     apt)
-      if sudo apt install -y pdftk; then
+      if apt install -y pdftk; then
         return 0
       fi
       ;;
     yum|dnf)
-      if sudo $PKG_MANAGER install -y pdftk; then
+      if yum install -y pdftk || dnf install -y pdftk; then
         return 0
       fi
       ;;
     zypper)
-      if sudo zypper install -y pdftk; then
+      if zypper install -y pdftk; then
         return 0
       fi
       ;;
     pacman)
-      if sudo pacman -S --noconfirm pdftk; then
+      if pacman -S --noconfirm pdftk; then
         return 0
       fi
       ;;
@@ -80,25 +80,49 @@ install_pdftk() {
 }
 
 install_pdftk_jar() {
+  # Download PDFtk JAR file using wget or curl, depending on availability.
+  if command -v wget >/dev/null; then
+    wget https://gitlab.com/api/v4/projects/5024297/packages/generic/pdftk-java/v3.3.3/pdftk-all.jar -O /usr/local/bin/pdftk.jar || {
+        echo "Failed to download PDFtk JAR file."
+        exit 1;
+    }
+  elif command -v curl >/dev/null; then
+    curl -L https://gitlab.com/api/v4/projects/5024297/packages/generic/pdftk-java/v3.3.3/pdftk-all.jar -o /usr/local/bin/pdftk.jar || {
+        echo "Failed to download PDFtk JAR file."
+        exit 1;
+    }
+  else
+    echo "Neither wget nor curl is available."
+    exit 1;
+  fi
 
-  # Download PDFtk JAR file
-  sudo wget https://gitlab.com/api/v4/projects/5024297/packages/generic/pdftk-java/v3.3.3/pdftk-all.jar -O /usr/local/bin/pdftk.jar
+  # Create wrapper script for PDFtk.
+  echo '#!/bin/sh' > /usr/local/bin/pdftk
+  echo 'java -jar /usr/local/bin/pdftk.jar "$@"' >> /usr/local/bin/pdftk
 
-  # Create wrapper script
-  echo '#!/bin/sh' | sudo tee /usr/local/bin/pdftk > /dev/null
-  echo 'java -jar /usr/local/bin/pdftk.jar "$@"' | sudo tee -a /usr/local/bin/pdftk > /dev/null
-
-  # Make the wrapper script executable
-  sudo chmod +x /usr/local/bin/pdftk
+  # Make the wrapper script executable.
+  chmod +x /usr/local/bin/pdftk || {
+     echo "Failed to make PDFtk executable."
+     exit 1;
+   }
 }
 
 main() {
-  detect_os
-  install_java
-  install_pdftk
+  detect_os || exit 1;
+  install_java || exit 1;
+  install_pdftk || exit 1;
+
   echo "Java JRE and PDFtk installation complete."
+
+  # Verify PDFtk installation.
   echo "Verifying PDFtk installation:"
-  pdftk --version
+
+   if pdftk --version; then
+       echo "PDFtk installed successfully."
+   else
+       echo "PDFtk installation failed."
+       exit 1;
+   fi
 }
 
-main
+main "$@"
