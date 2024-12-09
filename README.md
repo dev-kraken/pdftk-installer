@@ -14,16 +14,16 @@ This repository contains a shell script that automates the installation of PDFtk
 
 You can run this script directly using either wget or curl:
 
-### Using wget:
-
-```sh
-sh -c "$(wget https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh -O -)"
-```
-
 ### Using curl:
 
 ```sh
-sh -c "$(curl -s https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh)"
+curl -s https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh | sudo bash
+```
+
+### Using wget:
+
+```sh
+wget -qO- https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh | sudo bash
 ```
 
 ### What the script does
