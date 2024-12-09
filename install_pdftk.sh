@@ -16,8 +16,6 @@ if [ "$(id -u)" -ne 0 ]; then
 
   # Call sudo without exec and exit after
   sudo "$0" "$@"
-
-  # Exit here so that the original script does not continue
   exit 0
 fi
 
@@ -117,7 +115,7 @@ install_pdftk_jar() {
   fi
 
   # Create wrapper script for PDFtk.
-  if [ ! -x /usr/local/bin/pdftk ]; then
+  if [ ! -x /usr/local/bin/pdftk ] || [ ! -x pdftk ]; then
     echo '#!/bin/sh' >/usr/local/bin/pdftk
     echo 'java -jar /usr/local/bin/pdftk.jar "$@"' >>/usr/local/bin/pdftk
     chmod +x /usr/local/bin/pdftk || {
