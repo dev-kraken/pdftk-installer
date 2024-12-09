@@ -41,7 +41,7 @@ install_java() {
       sudo pacman -Syu --noconfirm jre11-openjdk
       ;;
     apk)
-      sudo apk add --no-cache openjdk11-jre
+      apk add --no-cache openjdk11-jre
       ;;
   esac
 }
@@ -69,7 +69,7 @@ install_pdftk() {
       fi
       ;;
     apk)
-      if sudo apk add --no-cache pdftk; then
+      if apk add --no-cache pdftk; then
         return 0
       fi
       ;;
