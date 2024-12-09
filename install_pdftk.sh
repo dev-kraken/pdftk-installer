@@ -15,7 +15,7 @@ if [ "$(id -u)" -ne 0 ]; then
   echo "Attempting to switch to root..."
 
   # Call sudo without exec and exit after
-  sudo "$0" "$@"
+  sudo bash "$0" "$@" # Re-run the script with sudo as bash, which ensures the environment is consistent
   exit 0
 fi
 
