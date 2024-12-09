@@ -14,8 +14,9 @@ if [ "$(id -u)" -ne 0 ]; then
   echo "This script must be run as root or with sudo."
   echo "Attempting to switch to root..."
 
-  # Re-execute the script with sudo
-  exec sudo "$0" "$@"
+  # Call sudo without exec and exit after
+  sudo "$0" "$@"
+  exit  # Exit here so that the original script does not continue
 fi
 
 # Continue with the rest of your script here
