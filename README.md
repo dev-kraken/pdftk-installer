@@ -16,14 +16,16 @@ You can run this script directly using either wget or curl:
 
 ### Using wget:
 
-```bash
-bash <(wget -qO- https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh)
+```sh
+sh -c "$(wget https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh -O -)"
 ```
+
 ### Using curl:
 
-```bash
-bash <(curl -s https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh)
+```sh
+sh -c "$(curl -s https://raw.githubusercontent.com/dev-kraken/pdftk-installer/main/install_pdftk.sh)"
 ```
+
 ### What the script does
 1.  Detects the operating system and package manager
 2.  Installs Java JRE if not already present
