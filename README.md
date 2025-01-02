@@ -5,14 +5,14 @@ This repository contains a shell script that automates the installation of PDFtk
 ## Features
 
 - Detects the operating system and package manager automatically
-- Installs Java Runtime Environment (JRE) if not present
+- Installs the Java Runtime Environment (JRE) if not present
 - Attempts to install PDFtk using the system's package manager
 - Falls back to downloading and setting up the Java version of PDFtk if the package manager installation fails
-- Works on multiple Linux distributions including Debian/Ubuntu, Red Hat/CentOS, Fedora, openSUSE, Arch Linux, and Alpine Linux
+- Works on multiple Linux distributions, including Debian/Ubuntu, Red Hat/CentOS, Fedora, openSUSE, Arch Linux, and Alpine Linux
 
 ## Usage
 
-You can run this script directly using either wget or curl:
+You can run this script directly using either `wget` or `curl`:
 
 ### Using curl:
 
